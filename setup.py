@@ -16,14 +16,6 @@ from setuptools.command.build_ext import build_ext
 from distutils.version import LooseVersion
 
 
-setup_requires = ['wheel', 'pytest-runner', 'jinja2']
-install_requires = ['numpy', 'pandas', 'xarray', 'parsimonious', 'mock', 'pytest',
-                    'pytest-xdist', 'hypothesis', 'colorama', 'pytest_cpp',
-                    'pytest-sugar', 'tqdm', 'dask', 'homog', 'jinja2']
-tests_require = ['pytest', 'pytest-xdist', 'hypothesis', 'colorama',
-                 'pytest_cpp', 'homog', 'jinja2']
-
-
 ###############################################################################
 # horrible duplicates with setup.py and tools/build_utils.py
 # setup.py must stand alone for detox to work(?)
@@ -134,7 +126,7 @@ class CMakeBuild(build_ext):
 
     def run(self):
         if not self.build_temp.endswith(self.my_tag):
-            self.build_temp += '-' + self.my_tag
+            self.build_temp = self.build_temp[:255-(len(self.my_tag) + 1)] + '-' + self.my_tag
         try:
             out = subprocess.check_output(['cmake', '--version'])
         except OSError:
@@ -153,7 +145,7 @@ class CMakeBuild(build_ext):
 
     def get_ext_fullpath(self, ext_name):
         defaultname = build_ext.get_ext_fullpath(self, ext_name)
-        path = os.path.dirname(defaultname)
+        path = os.path.dirname(defaultname)[:255 - (2 + len(self.my_tag) + len(os.path.basename(defaultname)))]
         path += '-' + self.my_tag + '/'
         path += os.path.basename(defaultname)
         return path, defaultname
@@ -271,8 +263,5 @@ setup(
     ext_modules=[CMakeExtension('_rif')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
-    setup_requires=setup_requires,
-    install_requires=install_requires,
-    tests_require=tests_require,
     test_suite='pytest'
 )

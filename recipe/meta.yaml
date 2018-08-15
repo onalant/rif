@@ -1,0 +1,12 @@
+package:
+  name: rif
+  version: 0.1.0
+source:
+  path: /home/onalant/source/rifsrc/
+build:
+  script: pip install parsimonious && python setup.py install
+requirements:
+  build:
+    - numpy
+    - pandas
+    - jinja2

@@ -1,25 +1,29 @@
-name: rif
+name: build_rif
 dependencies:
- - python=3
- - numpy=1.13
- - PyYAML
- - colorama
- - future
- - jinja2
+ - python
+ - numpy
  - pandas
- - xarray
- - pytest
- - pytest-cov
- - sphinx_rtd_theme
- - mock
- - seaborn
- - dask
- - pip:
-   - external/hacked_packages/pytest-cpp-0.4
-   - breathe
-   - hypothesis
-   - pytest-sugar
-   - pytest-xdist
-   - parsimonious
-   - tqdm
-   - homog
+
+#  - scipy
+#  - PyYAML
+#  - colorama
+#  - future
+#  - jinja2
+#  - pandas
+#  - xarray
+#  - pytest
+#  - pytest-cov
+#  - sphinx_rtd_theme
+#  - mock
+#  - seaborn
+#  - dask
+#  - pip
+#    - pytest-cpp
+#    - breathe
+#    - hypothesis
+#    - pytest-sugar
+#    - pytest-xdist
+#    - sphinxcontrib-napoleon
+#    - tqdm
+#    - homog
+#    - pytest-runner
