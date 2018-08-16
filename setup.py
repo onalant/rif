@@ -208,6 +208,7 @@ class CMakeBuild(build_ext):
             # this causes build failure....
             # env['CXXFLAGS'] = env['CXXFLAGS'] + ' -L' + condadir + '/lib'
             print('setup.py: adding -I/-L for conda', condadir)
+        os.makedirs("build", exist_ok=True)
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
         try:
