@@ -10,9 +10,8 @@ build:
 test:
   requires:
     - pytest
-    - pytest-xdist
   commands:
-    - pytest -v -n4 --pyargs rif
+    - pytest --pyargs rif
 
 requirements:
   build:
