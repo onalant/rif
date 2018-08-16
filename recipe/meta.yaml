@@ -9,11 +9,13 @@ build:
 
 requirements:
   build:
-    - python
+    - python >=3.6
     - numpy
     - jinja2
+    - six
     - boost
   run:
-    - python
+    - python >=3.6
     - numpy
     - pandas
+    - six
