@@ -9,7 +9,11 @@ build:
 
 requirements:
   build:
+    - python
     - numpy
-    - pandas
     - jinja2
     - boost
+  run:
+    - python
+    - numpy
+    - pandas
