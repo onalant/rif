@@ -4,7 +4,7 @@ package:
 source:
   path: /home/onalant/source/rifsrc/
 build:
-  script: pip install parsimonious && python setup.py install
+  script: python setup.py install
 requirements:
   build:
     - numpy
