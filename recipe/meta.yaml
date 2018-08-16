@@ -7,6 +7,12 @@ source:
 build:
   script: pip install parsimonious && python setup.py install
 
+test:
+  requires:
+    - pytest
+  commands:
+    - pytest --pyargs rif.hash
+
 requirements:
   build:
     - python >=3.6
