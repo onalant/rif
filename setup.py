@@ -59,7 +59,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='rif',
-    version='0.0.2',
+    version='0.1.0',
     author='Will Sheffler',
     author_email='willsheffler@gmail.com',
     description='Rotamer Interaction Field protein design library',
