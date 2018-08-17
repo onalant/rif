@@ -4,13 +4,8 @@ project(rif)
 # message("============== CMAKE ===========================================")
 
 function(main)
-    # message("-------------- CMAKE main --------------------------------------")
-    print_config()
     add_subdirectory(external/pybind11)
-    # execute_process(COMMAND rm -f ${CMAKE_CURRENT_BINARY_DIR}/util/_rif.gen.cpp)
-    # build_gtests()
     build_python_bindings("")
-    # summary()
 endfunction()
 
 
@@ -25,14 +20,6 @@ if(DEFINED BOOST_ROOT)
     link_directories(${BOOST_ROOT}/lib)
 else()
     message("cmake: NOT using BOOST_ROOT")
-endif()
-
-find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM)
-    message("cmake: using ccache ${CCACHE_PROGRAM}")
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
-else()
-    message("cmake: not using ccache")
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} $ENV{CXXFLAGS}")
@@ -52,26 +39,6 @@ endif()
 include_directories("external/include")
 include_directories("src/rif")
 include_directories("src")
-include_directories("/usr/local/include")
-include_directories("/opt/local/include")
-link_directories("/usr/local/lib")
-#link_directories("/opt/local/lib")
-# list(APPEND extra_libs boost_system)
-# list(APPEND extra_libs boost_iostreams)
-
-function(print_config)
-    # message("-------------- CMAKE print_config -------------------------------------------------")
-    message("cmake: CC:  " $ENV{CC})
-    message("cmake: CXX: " $ENV{CXX})
-    message("cmake: CXXFLAGS: " $ENV{CXXFLAGS})
-    message("cmake: CMAKE_CXX_COMPILER: " ${CMAKE_CXX_COMPILER})
-    message("cmake: CMAKE_BUILD_TYPE: " ${CMAKE_BUILD_TYPE})
-    message("cmake: CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
-    message("cmake: extra_libs: " ${extra_libs})
-    message("cmake: CMAKE_OPTIONS: " $ENV{CMAKE_OPTIONS})
-    message("cmake: BOOST_ROOT: " $ENV{BOOST_ROOT})
-    message("PYTHON_EXECUTABLE: " ${PYTHON_EXECUTABLE})
-endfunction()
 
 function(copy_py_to_liboutdir)
     # message("-------------- CMAKE copy_py_to_liboutdir ----------")
@@ -87,11 +54,8 @@ function(build_python_bindings)
     # message("-------------- CMAKE build_python_bindings ----------------------------------------")
     set(SRCGEN ${CMAKE_SOURCE_DIR}/tools/pybind_source_gen.py)
     FILE(GLOB_RECURSE PY_CPP "./src/rif/[0-9a-zA-Z_]*.pybind.cpp")
-    copy_py_to_liboutdir()
-    # execute_process(COMMAND python ${SRCGEN} ${CMAKE_SOURCE_DIR}/src/rif ${CMAKE_CURRENT_BINARY_DIR} )
-    # if(NOT "${STATUS}" STREQUAL "0")
-        # message(FATAL_ERROR "${SRCGEN} failed: ${STATUS}")
-    # endif()
+	copy_py_to_liboutdir()
+
     add_custom_command(
         OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/_rif.gen.cpp
         COMMAND python ${SRCGEN} ${CMAKE_SOURCE_DIR}/src/rif ${CMAKE_CURRENT_BINARY_DIR}
@@ -101,39 +65,6 @@ function(build_python_bindings)
 
 endfunction()
 
-
-function(build_gtests)
-    # message("-------------- CMAKE build_gtests -------------------------------------------------")
-    add_subdirectory(external/googletest)
-    include_directories("external/googletest/include")
-    list(APPEND extra_libs gtest)
-
-    file(GLOB_RECURSE TEST_CPP "src/rif/[0-9a-zA-Z_]*.gtest.cpp")
-    add_executable(gtest_all src/test/gtest_all.cpp ${TEST_CPP})
-    target_link_libraries(gtest_all ${extra_libs})
-
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/gtest_auto.gen.cpp)
-        message("!!!!! creating gtest_auto file")
-        execute_process(COMMAND cp ${CMAKE_SOURCE_DIR}/tools/empty.cpp.tplt ${CMAKE_CURRENT_BINARY_DIR}/gtest_auto.gen.cpp)
-    endif()
-    add_executable(gtest_auto ${CMAKE_CURRENT_BINARY_DIR}/gtest_auto.gen.cpp)
-    target_link_libraries(gtest_auto ${extra_libs})
-endfunction()
-
-function(summary)
-    # message("-------------- CMAKE summary ------------------------------------------------------")
-    if(CCACHE_PROGRAM)
-        message("cmake: add_custom_target: ccache -s")
-        add_custom_target(ccache_stats ALL
-            COMMAND ${CCACHE_PROGRAM} -s
-            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMENT "!!!!!!!!!!!!!!!!!!!! getting ccache stats !!!!!!!!!!!!!!!!!!!!!!!!!!"
-            DEPENDS _rif gtest_all
-        )
-    endif()
-endfunction()
-
 main()
-
 
 # message("============== CMAKE DONE =========================================================")

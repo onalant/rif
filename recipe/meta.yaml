@@ -10,8 +10,9 @@ build:
 test:
   requires:
     - pytest
+    - pytest-xdist
   commands:
-    - pytest --pyargs rif
+    - pytest -v -n4 --pyargs rif
 
 requirements:
   build:
@@ -20,6 +21,7 @@ requirements:
     - jinja2
     - six
     - boost
+    - ninja
   run:
     - python >=3.6
     - numpy
