@@ -2,10 +2,10 @@ package:
   name: rif
   version: {{ GIT_DESCRIBE_TAG }}
 source:
-  number: {{ GIT_DESCRIBE_NUMBER }}
   git_url: ../.
 
 build:
+  number: {{ GIT_DESCRIBE_NUMBER }}
   script: pip install parsimonious && python setup.py install
 
 test:
