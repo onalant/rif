@@ -17,13 +17,13 @@ test:
 requirements:
   build:
     - python {{ python }}
-    - numpy
     - jinja2
     - six
+    - numpy=1.13.1
     - boost
     - ninja
   run:
     - python
-    - numpy
+    - numpy=1.13.1
     - pandas
     - six
