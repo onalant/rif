@@ -1,8 +1,9 @@
 package:
   name: rif
-  version: 0.1.0
+  version: {{ GIT_DESCRIBE_TAG }}
 source:
-  path: ../.
+  number: {{ GIT_DESCRIBE_NUMBER }}
+  git_url: ../.
 
 build:
   script: pip install parsimonious && python setup.py install
@@ -10,20 +11,19 @@ build:
 test:
   requires:
     - pytest
-    - pytest-xdist
   commands:
-    - pytest -v -n4 --pyargs rif
+    - pytest --pyargs rif
 
 requirements:
   build:
-    - python >=3.6
+    - python {{ python }}
     - numpy
     - jinja2
     - six
     - boost
     - ninja
   run:
-    - python >=3.6
+    - python
     - numpy
     - pandas
     - six
