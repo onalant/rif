@@ -19,11 +19,11 @@ requirements:
     - python {{ python }}
     - jinja2
     - six
-    - numpy=1.13.1
+    - numpy >=1.13,<1.14
     - boost
     - ninja
   run:
     - python
-    - numpy=1.13.1
+    - numpy >=1.13,<1.14
     - pandas
     - six
